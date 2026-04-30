@@ -1,0 +1,349 @@
+-- CREATE TABLE departments (
+--     dept_id      NUMBER PRIMARY KEY,
+--     dept_name    VARCHAR2(50) NOT NULL,
+--     location     VARCHAR2(50)
+-- );
+-- CREATE TABLE employees (
+--     emp_id        NUMBER PRIMARY KEY,
+--     emp_name      VARCHAR2(50) NOT NULL,
+--     dept_id       NUMBER,
+--     manager_id    NUMBER,
+--     salary        NUMBER(10,2),
+--     hire_date     DATE,
+--     CONSTRAINT fk_emp_dept
+--         FOREIGN KEY (dept_id)
+--         REFERENCES departments(dept_id)
+-- );
+-- INSERT INTO departments VALUES (10, 'Sales',      'Mumbai');
+-- INSERT INTO departments VALUES (20, 'Engineering','Bengaluru');
+-- INSERT INTO departments VALUES (30, 'HR',         'Delhi');
+-- INSERT INTO departments VALUES (40, 'Finance',    'Pune');
+-- INSERT INTO departments VALUES (50, 'Legal',      'Chennai');
+-- INSERT INTO employees VALUES (101, 'Asha',   10, 900, 60000, DATE '2022-01-10');
+-- INSERT INTO employees VALUES (102, 'Bharat', 20, 901, 80000, DATE '2021-03-15');
+-- INSERT INTO employees VALUES (103, 'Charu',  20, 901, 75000, DATE '2023-07-01');
+-- INSERT INTO employees VALUES (104, 'Deep',   20, NULL, NULL, DATE '2024-02-20');
+-- INSERT INTO employees VALUES (105, 'Esha',   30, 902, 50000, DATE '2020-11-05');
+-- INSERT INTO employees VALUES (106, 'Farhan', NULL, 903, 45000, DATE '2024-01-12'); -- NULL dept
+-- INSERT INTO employees VALUES (107, 'Gauri',  40, 904, 90000, DATE '2019-08-25');
+-- INSERT INTO employees VALUES (108, 'Hari',   NULL, NULL, NULL, DATE '2025-01-01'); -- NULL dept + NULL salary
+
+-- COMMIT;
+
+-- SELECT e.emp_id, e.emp_name, d.dept_name
+-- FROM employees e  -- Added the 'e' alias here
+-- INNER JOIN departments d
+--     ON e.dept_id = d.dept_id;
+-- SELECT e.emp_id, e.emp_name, d.dept_name
+-- FROM employees e
+-- LEFT JOIN departments d
+--     ON e.dept_id = d.dept_id
+-- ORDER BY e.emp_id;
+-- SELECT d.dept_id, d.dept_name, e.emp_name
+-- FROM employees e
+-- RIGHT JOIN departments d
+--     ON e.dept_id = d.dept_id
+-- ORDER BY d.dept_id, e.emp_name;
+-- SELECT e.emp_name, d.dept_name
+-- FROM employees e
+-- FULL OUTER JOIN departments d
+--     ON e.dept_id = d.dept_id
+-- ORDER BY d.dept_name, e.emp_name;
+-- SELECT e.emp_id, e.emp_name, e.dept_id
+-- FROM employees e
+-- LEFT JOIN departments d
+--     ON e.dept_id = d.dept_id
+-- WHERE d.dept_id IS NULL;
+-- SELECT d.dept_id, d.dept_name
+-- FROM departments d
+-- LEFT JOIN employees e
+--     ON d.dept_id = e.dept_id
+-- WHERE e.emp_id IS NULL;
+-- SELECT e.emp_name, d.dept_name, d.location
+-- FROM employees e
+-- JOIN departments d
+--     ON e.dept_id = d.dept_id
+-- WHERE d.location = 'Bengaluru';
+-- SELECT d.dept_id,
+--        d.dept_name,
+--        COUNT(e.emp_id) AS employee_count
+-- FROM departments d
+-- LEFT JOIN employees e
+--     ON d.dept_id = e.dept_id
+-- GROUP BY d.dept_id, d.dept_name
+-- ORDER BY d.dept_id;
+-- SELECT d.dept_name,
+--        ROUND(AVG(e.salary), 2) AS avg_salary
+-- FROM departments d
+-- LEFT JOIN employees e
+--     ON d.dept_id = e.dept_id
+-- GROUP BY d.dept_name
+-- ORDER BY d.dept_name;
+-- SELECT e.emp_name,
+--        NVL(d.dept_name, 'No Department') AS dept_label
+-- FROM employees e
+-- LEFT JOIN departments d
+--     ON e.dept_id = d.dept_id
+-- ORDER BY e.emp_id;
+-- SELECT e.emp_name, e.hire_date, d.dept_name
+-- FROM employees e
+-- LEFT JOIN departments d
+--     ON e.dept_id = d.dept_id
+-- WHERE e.hire_date >= DATE '2023-01-01'
+-- ORDER BY e.hire_date;
+
+-- SELECT d.dept_name, COUNT(*) AS emp_count
+-- FROM departments d
+-- JOIN employees e
+--     ON d.dept_id = e.dept_id
+-- -- GROUP BY d.dept_name
+-- -- HAVING COUNT(*) >= 2;
+-- SELECT 
+--     e.emp_name, 
+-- --     d.dept_name
+-- -- FROM employees e
+-- -- INNER JOIN departments d 
+-- --     ON e.dept_id = d.dept_id;
+-- SELECT 
+--     e.emp_name, 
+--     d.dept_name
+-- FROM employees e
+-- LEFT JOIN departments d 
+--     ON e.dept_id = d.dept_id;
+-- SELECT 
+--     e.emp_name, 
+--     d.dept_name
+-- FROM employees e
+-- LEFT JOIN departments d 
+--     ON e.dept_id = d.dept_id;
+-- SELECT 
+--     e.emp_name, 
+-- --     d.dept_name 
+-- -- FROM employees e
+-- -- FULL OUTER JOIN departments d 
+-- --     ON e.dept_id = d.dept_id 
+-- -- ORDER BY d.dept_name, e.emp_name;
+-- SELECT emp_name, dept_id
+-- FROM employees
+-- -- WHERE dept_id NOT IN (SELECT dept_id FROM departments);
+-- SELECT 
+--     e.emp_name, 
+--     e.dept_id
+-- FROM employees e
+-- LEFT JOIN departments d 
+--     ON e.dept_id = d.dept_id
+-- WHERE d.dept_id IS NULL;
+-- SELECT 
+--     departments.dept_id, 
+--     departments.dept_name
+-- FROM employees
+-- RIGHT JOIN departments 
+--     ON employees.dept_id = departments.dept_id
+-- WHERE employees.emp_id IS NULL;
+
+-- SELECT 
+--     departments.dept_name, 
+--     COUNT(employees.emp_id) AS employee_count
+-- FROM departments
+-- LEFT JOIN employees 
+--     ON departments.dept_id = employees.dept_id
+-- GROUP BY departments.dept_name;
+
+-- SELECT 
+--     departments.dept_name, 
+--     AVG(employees.salary) AS average_salary
+-- FROM departments
+-- LEFT JOIN employees 
+--     ON departments.dept_id = employees.dept_id
+-- GROUP BY departments.dept_name;
+-- SELECT 
+--     departments.dept_name, 
+--     MAX(employees.salary) AS highest_salary
+-- FROM departments
+-- JOIN employees 
+--     ON departments.dept_id = employees.dept_id
+-- WHERE employees.salary IS NOT NULL
+-- GROUP BY departments.dept_name;
+
+-- SELECT 
+--     employees.emp_name, 
+--     departments.dept_name, 
+--     employees.hire_date
+-- FROM employees
+-- INNER JOIN departments 
+--     ON employees.dept_id = departments.dept_id
+-- WHERE employees.hire_date >= TO_DATE('2024-01-01', 'YYYY-MM-DD')
+-- ORDER BY employees.hire_date DESC;
+-- SELECT 
+--     employees.emp_name, 
+--     NVL(departments.dept_name, 'No Department') AS department_label
+-- FROM employees
+-- LEFT JOIN departments 
+--     ON employees.dept_id = departments.dept_id;
+-- SELECT 
+--     departments.dept_name, 
+--     COUNT(employees.emp_id) AS employee_count
+-- FROM departments
+-- JOIN employees 
+--     ON departments.dept_id = employees.dept_id
+-- GROUP BY departments.dept_name
+-- HAVING COUNT(employees.emp_id) > 1;
+
+-- SELECT 
+--     departments.location, 
+--     SUM(employees.salary) AS total_salary_spent
+-- FROM departments
+-- JOIN employees 
+--     ON departments.dept_id = employees.dept_id
+-- GROUP BY departments.location;
+
+-- SELECT 
+--     employees.emp_name, 
+-- --     departments.dept_name, 
+-- --     departments.location
+-- -- FROM employees
+-- -- JOIN departments 
+-- --     ON employees.dept_id = departments.dept_id
+-- -- WHERE departments.location = 'Bengaluru';
+-- SELECT emp_name, dept_name, salary
+-- FROM (
+--     SELECT 
+--         e.emp_name, 
+--         d.dept_name, 
+--         e.salary,
+--         ROW_NUMBER() OVER (PARTITION BY d.dept_name ORDER BY e.salary DESC) as ranking
+--     FROM employees e
+--     JOIN departments d ON e.dept_id = d.dept_id
+-- )
+-- WHERE ranking = 1;
+--  SELECT 
+-- --     departments.dept_name
+-- -- FROM departments
+-- -- JOIN employees 
+-- --     ON departments.dept_id = employees.dept_id
+-- -- GROUP BY departments.dept_name
+-- -- HAVING MAX(employees.salary) IS NULL;
+
+-- SELECT 
+--     departments.dept_id, 
+--     departments.dept_name
+-- FROM departments
+-- WHERE NOT EXISTS (
+--     SELECT 1 
+--     FROM employees 
+--     WHERE employees.dept_id = departments.dept_id
+-- -- );
+-- SELECT COUNT(*) AS unassigned_count
+-- FROM employees
+-- WHERE dept_id IS NULL;
+-- SELECT 
+--     departments.dept_name, 
+--     employees.emp_name
+-- FROM departments, employees;
+
+-- SELECT *
+-- FROM (
+--     SELECT e.*
+--     FROM employees e
+--     ORDER BY e.emp_id
+-- )
+-- WHERE ROWNUM <= 3;
+
+-- SELECT *
+-- FROM (
+--     SELECT e.emp_id, e.emp_name, e.salary
+--     FROM employees e
+--     WHERE e.salary IS NOT NULL
+--     ORDER BY e.salary DESC
+-- )
+-- WHERE ROWNUM <= 2;
+
+-- SELECT *
+-- FROM (
+--     SELECT e.emp_name, e.salary
+--     FROM employees e
+--     WHERE e.salary IS NOT NULL
+--     ORDER BY e.salary
+-- )
+-- WHERE ROWNUM <= 4;
+
+-- SELECT *
+-- FROM (
+--     SELECT e.emp_name, e.hire_date
+--     FROM employees e
+--     ORDER BY e.hire_date DESC
+-- )
+-- WHERE ROWNUM <= 3;
+
+-- SELECT *
+-- FROM (
+--     SELECT d.dept_id, d.dept_name
+--     FROM departments d
+--     ORDER BY d.dept_name
+-- )
+-- WHERE ROWNUM <= 2;
+
+-- SELECT *
+-- FROM (
+--     SELECT e.emp_name,
+--            e.salary,
+--            ROW_NUMBER() OVER (ORDER BY e.salary DESC NULLS LAST) AS rn
+--     FROM employees e
+-- )
+-- ORDER BY rn;
+-- SELECT *
+-- FROM (
+--     SELECT d.dept_name,
+--            e.emp_name,
+--            e.salary,
+--            ROW_NUMBER() OVER (
+--                PARTITION BY e.dept_id
+--                ORDER BY e.salary DESC NULLS LAST
+--            ) AS rn
+--     FROM employees e
+--     LEFT JOIN departments d
+--         ON e.dept_id = d.dept_id
+-- )
+-- ORDER BY dept_name, rn;
+
+-- SELECT *
+-- FROM (
+--     SELECT d.dept_name,
+--            e.emp_name,
+--            e.salary,
+--            ROW_NUMBER() OVER (
+--                PARTITION BY e.dept_id
+--                ORDER BY e.salary DESC NULLS LAST
+--            ) AS rn
+--     FROM employees e
+--     LEFT JOIN departments d
+--         ON e.dept_id = d.dept_id
+-- )
+-- WHERE rn = 1;
+
+-- SELECT *
+-- FROM (
+--     SELECT e.emp_name,
+--            e.salary,
+-- --            ROW_NUMBER() OVER (ORDER BY e.salary DESC NULLS LAST) AS rn
+-- --     FROM employees e
+-- -- )
+-- -- WHERE rn = 2;
+
+-- SELECT *
+-- FROM (
+--     SELECT e.emp_name,
+--            e.hire_date,
+--            ROW_NUMBER() OVER (ORDER BY e.hire_date) AS rn
+--     FROM employees e
+-- )
+-- WHERE rn BETWEEN 3 AND 5;
+
+SELECT *
+FROM (
+    SELECT e.emp_name,
+           e.salary,
+           RANK() OVER (ORDER BY e.salary DESC NULLS LAST) AS sal_rank
+    FROM employees e
+)
+ORDER BY sal_rank;
